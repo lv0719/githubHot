@@ -5,7 +5,6 @@ import axios from 'axios'
 import 'font-awesome/css/font-awesome.css'
 
 let a = 10
-let b = '
 let apiArr = [
   'https://api.github.com/search/repositories?q=stars:3E1&sort=stars&order=desc&type=Repositories',
   'https://api.github.com/search/repositories?q=stars:3E1+language:javascript&sort=stars&order=desc&type=Repositories',
@@ -13,6 +12,7 @@ let apiArr = [
   'https://api.github.com/search/repositories?q=stars:3E1+language:java&sort=stars&order=desc&type=Repositories',
   'https://api.github.com/search/repositories?q=stars:3E1+language:css&sort=stars&order=desc&type=Repositories',
 ]
+
 function App() {
   let dataArr = []
   const listArrObj = [
