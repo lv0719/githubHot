@@ -6,7 +6,7 @@ import 'font-awesome/css/font-awesome.css'
 
 let a = 12
 let b = 11
-let c = 22
+let c = 232
 let apiArr = [
   'https://api.github.com/search/repositories?q=stars:3E1&sort=stars&order=desc&type=Repositories',
   'https://api.github.com/search/repositories?q=stars:3E1+language:javascript&sort=stars&order=desc&type=Repositories',
