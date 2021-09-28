@@ -1,11 +1,13 @@
 {
   "name": "webpackTest",
   "version": "1.0.0",
+  "homepage": "./",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "webpack --config ./scripts/webpack.dev.js",
-    "dev": "webpack serve --config ./scripts/webpack.dev.js"
+    "dev": "webpack serve --config ./scripts/webpack.dev.js",
+    "deploy": "gh-pages -d build" 
   },
   "keywords": [],
   "author": "",
