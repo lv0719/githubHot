@@ -5,6 +5,7 @@ import axios from 'axios'
 import 'font-awesome/css/font-awesome.css'
 
 let a = 10
+let b = '
 let apiArr = [
   'https://api.github.com/search/repositories?q=stars:3E1&sort=stars&order=desc&type=Repositories',
   'https://api.github.com/search/repositories?q=stars:3E1+language:javascript&sort=stars&order=desc&type=Repositories',
@@ -45,7 +46,6 @@ function App() {
   const [name, setName] = useState(listArrObj)
   const [data, setData] = useState(dataArr)
   const [isLoad, setIsLoad] = useState(false)
-  const contentRef = React.create
   //点击切换头部
   function changeHead(id) {
     setIsLoad(true)
@@ -116,7 +116,7 @@ function App() {
       <div className='content'>
         {data.map((item, index) => {
           return (
-            <div className='list-item'>
+            <div className='list-item' key={index}>
               <div className='item-index'>#{index + 1}</div>
               <div className='list-img'>
                 <img src={item.owner.avatar_url} />
