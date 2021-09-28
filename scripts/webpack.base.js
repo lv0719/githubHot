@@ -3,6 +3,7 @@ const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') //这个插件将 CSS 提取到单独的文件中。它为每个包含CSS 的 JS 文件创建一个 CSS 文件。它支持按需加载 CSS 和 SourceMaps。
 const TerserPlugin = require('terser-webpack-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 
 module.exports = {
   mode: 'development',
@@ -82,12 +83,17 @@ module.exports = {
     minimize: true, // 可省略，默认最优配置：生产环境，压缩 true。开发环境，不压缩 false
     minimizer: [
       new TerserPlugin({
+        //js压缩
         parallel: true, // 可省略，默认开启并行
         terserOptions: {
           toplevel: true, // 最高级别，删除无用代码
           ie8: true,
           safari10: true,
         },
+      }),
+      new CssMinimizerPlugin({
+        //css压缩
+        parallel: 4,
       }),
     ],
   },
