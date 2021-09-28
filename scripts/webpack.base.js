@@ -8,7 +8,7 @@ module.exports = {
   mode: 'development',
   // 入口文件，这里之后会着重强调
   entry: {
-    main: path.resolve(__dirname, '../src/packages/home/index.tsx'),
+    main: path.resolve(__dirname, '../src/packages/home/index.jsx'),
   },
   output: {
     // filename: 'bundle.js',
@@ -22,7 +22,7 @@ module.exports = {
       '@containers': path.resolve(__dirname, '../src/containers'),
     },
     mainFiles: ['index', 'main'],
-    extensions: ['.ts', '.tsx', '.scss', 'json', '.js'],
+    extensions: ['.ts', '.tsx', '.scss', 'json', '.js', '.jsx'],
   },
   module: {
     rules: [
@@ -31,7 +31,7 @@ module.exports = {
         use: 'babel-loader',
       },
       {
-        test: /\.(sa|sc|le)ss$/,
+        test: /\.(sa|sc|le|c)ss$/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
