@@ -3,6 +3,7 @@ const baseConfig = require('./webpack.base')
 const portfinder = require('portfinder')
 const path = require('path')
 const { BASE_PROT } = require('./untils/constant')
+const ESLintPlugin = require('eslint-webpack-plugin')
 
 portfinder.basePort = BASE_PROT
 
@@ -23,6 +24,7 @@ const devConfig = {
     // 启动的端口
     port: BASE_PROT,
   },
+  plugins: [new ESLintPlugin({ extensions: ['js', 'ts', 'react'] })],
 }
 
 module.exports = async function () {
