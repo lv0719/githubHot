@@ -16,7 +16,6 @@ const baseConfig = require('./webpack.base')
 
 const prodConfig = {
   mode: 'production',
-  devtool: 'source-map',
   output: {
     filename: '[name]-[contenthash:8].js',
     path: path.resolve(__dirname, '../dist'),

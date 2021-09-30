@@ -1,0 +1,101 @@
+.box {
+  width: 100%;
+  height: auto;
+}
+.battle {
+  height: 300px;
+  width: 70%;
+  margin: 100px auto;
+}
+.battleTitle {
+  width: 100%;
+  text-align: center;
+  font-weight: bolder;
+  font-size: 24px;
+}
+.battleContent {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
+}
+.smallBox {
+  width: 20%;
+  height: auto;
+}
+.smallBox span {
+  display: block;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 18px;
+}
+.smallBox div {
+  height: 100px;
+}
+.playersTitle {
+  text-align: center;
+  padding-top: 20px;
+  font-weight: 700;
+}
+.players {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+.players .left,
+.players .right {
+  width: 50%;
+}
+.players .left p,
+.players .right p {
+  font-weight: 800;
+  font-size: 20px;
+}
+.players .content {
+  height: 100px;
+}
+.players .content .outPut {
+  width: 96%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: aqua;
+  text-align: left;
+}
+.content .outPut .outPutLeft {
+  width: 50%;
+  height: auto;
+}
+.content .outPut .outPutRight {
+  width: 50%;
+  height: auto;
+  text-align: right;
+}
+.site-result-demo-error-icon :hover {
+  cursor: pointer;
+}
+.outPutRight .site-result-demo-error-icon {
+  color: red;
+  font-size: 36px;
+  margin-right: 10px;
+}
+.outPutLeft span {
+  /* padding-left: 10px; */
+  font-size: 30px;
+  margin-left: 30px;
+}
+.Battle {
+  width: 100%;
+  position: relative;
+  top: 40px;
+}
+.Battle .battleButton {
+  position: absolute;
+  left: 50%;
+  margin-left: -50px;
+  line-height: 0;
+  font-size: 20px;
+}

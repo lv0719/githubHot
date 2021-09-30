@@ -23,7 +23,7 @@ module.exports = {
       '@containers': path.resolve(__dirname, '../src/containers'),
     },
     mainFiles: ['index', 'main'],
-    extensions: ['.ts', '.tsx', '.scss', 'json', '.js', '.jsx'],
+    extensions: ['.ts', '.tsx', '.scss', 'json', '.js', '.jsx', '.css'],
   },
   module: {
     rules: [
@@ -37,12 +37,10 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
           },
-          {
-            loader: 'css-loader',
-          },
-          {
-            loader: 'postcss-loader',
-          },
+          'css-loader',
+          'postcss-loader',
+          // 当解析antd.less，必须写成下面格式，否则会报Inline JavaScript is not enabled错误
+          { loader: 'less-loader', options: { lessOptions: { javascriptEnabled: true } } },
           {
             loader: 'resolve-url-loader',
             options: {
