@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import { Switch, Route, NavLink } from 'react-router-dom'
-import Battle from './battle.js'
-import Popular from './popular.js'
 import './styles/app.css'
+import 'antd/dist/antd.css'
+const Battle = lazy(() => import('./battle.js'))
+const Popular = lazy(() => import('./popular'))
 
 function App() {
   return (
@@ -15,10 +16,12 @@ function App() {
           <NavLink to='/battle'>Battle</NavLink>
         </span>
       </div>
-      <Switch>
-        <Route path='/battle' component={Battle} />
-        <Route exact path='/' component={Popular} />
-      </Switch>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Switch>
+          <Route path='/battle' component={Battle} />
+          <Route exact path='/' component={Popular} />
+        </Switch>
+      </Suspense>
       <div className='bottom'>@版权所有 liwei</div>
     </div>
   )

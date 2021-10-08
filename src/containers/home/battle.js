@@ -5,8 +5,7 @@ import requestData from './api/requestPlayer.js'
 import Result from './result'
 import { Route, NavLink, Switch, withRouter } from 'react-router-dom'
 import './styles/battle.css'
-import 'antd/dist/antd.css'
-import { Input, Button, Avatar } from 'antd'
+import { Input, Button, Avatar, Spin, message } from 'antd'
 
 import {
   UsergroupAddOutlined,
@@ -24,26 +23,42 @@ function Battle(props) {
   const [imgSrcTwo, setImgSrcTwo] = useState('')
   const [isshowOne, setIsShowOne] = useState(false)
   const [isshowTwo, setIsShowTwo] = useState(false)
+  const [isloadOne, setIsloadOne] = useState(false)
+  const [isloadTwo, setIsloadTwo] = useState(false)
   function playerOneClick() {
+    setIsloadOne(true)
     requestData(playOneValue)
       .then(res => {
         const imgUrl = res.avatar_url
+        setIsloadOne(false)
         setImgSrcOne(imgUrl)
         setIsShowOne(true)
       })
       .catch(err => {
-        console.log(err)
+        setPlayOneValue('')
+        message.error(err.message, 2)
+        setTimeout(() => {
+          message.info('请重新输入', 2)
+        }, 2000)
+        setIsloadOne(false)
       })
   }
   function playerTwoClick() {
+    setIsloadTwo(true)
     requestData(playTwoValue)
       .then(res => {
         const imgUrl = res.avatar_url
+        setIsloadTwo(false)
         setImgSrcTwo(imgUrl)
         setIsShowTwo(true)
       })
       .catch(err => {
-        console.log(err)
+        setPlayTwoValue('')
+        message.error(err.message, 2)
+        setTimeout(() => {
+          message.info('请重新输入', 2)
+        }, 2000)
+        setIsloadTwo(false)
       })
   }
   function playerInputOne(e) {
@@ -80,136 +95,139 @@ function Battle(props) {
     <>
       <Switch>
         <Route exact path='/battle/result' component={Result} />
-
-        <div className='box'>
-          <div className='battle'>
-            <p className='battleTitle'>Instructions</p>
-            <div className='battleContent'>
-              <div className='left smallBox'>
-                <span>Enter two Github:</span>
-                <div>
-                  <UsergroupAddOutlined
-                    style={{ fontSize: 150, color: '#F4EA2A', background: 'antiquewhite' }}
-                  />
-                </div>
-              </div>
-              <div className='center smallBox'>
-                <span>Battle</span>
-                <div>
-                  <TrophyOutlined
-                    style={{ fontSize: 150, color: '#FFBF74', background: 'antiquewhite' }}
-                  />
-                </div>
-              </div>
-              <div className='right smallBox'>
-                <span>See the winner</span>
-                <div>
-                  <RocketOutlined
-                    style={{ fontSize: 150, color: '#808080', background: 'antiquewhite' }}
-                  />
-                </div>
-              </div>
-            </div>
-            <p className='playersTitle'>Players</p>
-          </div>
-          <div className='players'>
-            <div className='left'>
-              <p>Player One</p>
-              <div className='content'>
-                {isshowOne ? (
-                  <>
-                    <div className='outPut'>
-                      <div className='outPutLeft'>
-                        <Avatar src={imgSrcOne} style={{ width: '40px', height: '40px' }} />
-                        <span>{playOneValue}</span>
-                      </div>
-                      <div
-                        className='outPutRight'
-                        onClick={() => {
-                          setIsShowOne(false)
-                          setPlayOneValue('')
-                        }}
-                      >
-                        <CloseCircleOutlined className='site-result-demo-error-icon' />
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <Input
-                      placeholder='github username'
-                      style={{ width: '66%', height: '50%' }}
-                      onChange={e => playerInputOne(e)}
-                      value={playOneValue}
+        <React.Fragment>
+          <div className='box'>
+            <div className='battle'>
+              <p className='battleTitle'>Instructions</p>
+              <div className='battleContent'>
+                <div className='left smallBox'>
+                  <span>Enter two Github:</span>
+                  <div>
+                    <UsergroupAddOutlined
+                      style={{ fontSize: 150, color: '#F4EA2A', background: 'antiquewhite' }}
                     />
-                    <Button
-                      type='dashed'
-                      style={{ width: '32%', height: '50%' }}
-                      disabled={isTrueOne}
-                      onClick={() => playerOneClick()}
-                    >
-                      Submit
-                    </Button>
-                  </>
-                )}
-              </div>
-            </div>
-            <div className='right'>
-              <p>Player Two</p>
-              <div className='content'>
-                {isshowTwo ? (
-                  <>
-                    <div className='outPut'>
-                      <div className='outPutLeft'>
-                        <Avatar src={imgSrcTwo} style={{ width: '40px', height: '40px' }} />
-                        <span>{playTwoValue}</span>
-                      </div>
-                      <div
-                        className='outPutRight'
-                        onClick={() => {
-                          setIsShowTwo(false)
-                          setPlayTwoValue('')
-                        }}
-                      >
-                        <CloseCircleOutlined className='site-result-demo-error-icon' />
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <Input
-                      placeholder='github username'
-                      style={{ width: '66%', height: '50%' }}
-                      onChange={e => playerInputTwo(e)}
-                      value={playTwoValue}
+                  </div>
+                </div>
+                <div className='center smallBox'>
+                  <span>Battle</span>
+                  <div>
+                    <TrophyOutlined
+                      style={{ fontSize: 150, color: '#FFBF74', background: 'antiquewhite' }}
                     />
-                    <Button
-                      type='dashed'
-                      style={{ width: '32%', height: '50%' }}
-                      disabled={isTrueTwo}
-                      onClick={() => playerTwoClick()}
-                    >
-                      Submit
-                    </Button>
-                  </>
-                )}
+                  </div>
+                </div>
+                <div className='right smallBox'>
+                  <span>See the winner</span>
+                  <div>
+                    <RocketOutlined
+                      style={{ fontSize: 150, color: '#808080', background: 'antiquewhite' }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <p className='playersTitle'>Players</p>
+            </div>
+            <div className='players'>
+              <div className='left'>
+                <Spin spinning={isloadOne} />
+                <p>Player One</p>
+                <div className='content'>
+                  {isshowOne ? (
+                    <>
+                      <div className='outPut'>
+                        <div className='outPutLeft'>
+                          <Avatar src={imgSrcOne} style={{ width: '40px', height: '40px' }} />
+                          <span>{playOneValue}</span>
+                        </div>
+                        <div
+                          className='outPutRight'
+                          onClick={() => {
+                            setIsShowOne(false)
+                            setPlayOneValue('')
+                          }}
+                        >
+                          <CloseCircleOutlined className='site-result-demo-error-icon' />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <Input
+                        placeholder='github username'
+                        style={{ width: '66%', height: '50%' }}
+                        onChange={e => playerInputOne(e)}
+                        value={playOneValue}
+                      />
+                      <Button
+                        type='dashed'
+                        style={{ width: '32%', height: '50%' }}
+                        disabled={isTrueOne}
+                        onClick={() => playerOneClick()}
+                      >
+                        Submit
+                      </Button>
+                    </>
+                  )}
+                </div>
+              </div>
+              <div className='right'>
+                <Spin spinning={isloadTwo} />
+                <p>Player Two</p>
+                <div className='content'>
+                  {isshowTwo ? (
+                    <>
+                      <div className='outPut'>
+                        <div className='outPutLeft'>
+                          <Avatar src={imgSrcTwo} style={{ width: '40px', height: '40px' }} />
+                          <span>{playTwoValue}</span>
+                        </div>
+                        <div
+                          className='outPutRight'
+                          onClick={() => {
+                            setIsShowTwo(false)
+                            setPlayTwoValue('')
+                          }}
+                        >
+                          <CloseCircleOutlined className='site-result-demo-error-icon' />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <Input
+                        placeholder='github username'
+                        style={{ width: '66%', height: '50%' }}
+                        onChange={e => playerInputTwo(e)}
+                        value={playTwoValue}
+                      />
+                      <Button
+                        type='dashed'
+                        style={{ width: '32%', height: '50%' }}
+                        disabled={isTrueTwo}
+                        onClick={() => playerTwoClick()}
+                      >
+                        Submit
+                      </Button>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
+            {isshowOne && isshowTwo && (
+              <div className='Battle'>
+                <Button
+                  className='battleButton'
+                  type='dashed'
+                  style={{ width: '100px' }}
+                  onClick={toSentQuery}
+                >
+                  Battle
+                </Button>
+                <NavLink to='/battle/result'></NavLink>
+              </div>
+            )}
           </div>
-          {isshowOne && isshowTwo && (
-            <div className='Battle'>
-              <Button
-                className='battleButton'
-                type='dashed'
-                style={{ width: '100px' }}
-                onClick={toSentQuery}
-              >
-                Battle
-              </Button>
-              <NavLink to='/battle/result'></NavLink>
-            </div>
-          )}
-        </div>
+        </React.Fragment>
       </Switch>
     </>
   )

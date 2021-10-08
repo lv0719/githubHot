@@ -1,19 +1,14 @@
 import React from 'react'
-import './styles/index.css'
+import './styles/popular.css'
 import './styles/loading.css'
 import axios from 'axios'
 import InfiniteScroll from 'react-infinite-scroller'
 import 'font-awesome/css/font-awesome.css'
+import { message } from 'antd'
 
-let apiArr = [
-  'https://api.github.com/search/repositories?q=stars:3E1&sort=stars&order=desc&type=Repositories',
-  'https://api.github.com/search/repositories?q=stars:3E1+language:javascript&sort=stars&order=desc&type=Repositories',
-  'https://api.github.com/search/repositories?q=stars:3E1+language:ruby&sort=stars&order=desc&type=Repositories',
-  'https://api.github.com/search/repositories?q=stars:3E1+language:java&sort=stars&order=desc&type=Repositories',
-  'https://api.github.com/search/repositories?q=stars:3E1+language:css&sort=stars&order=desc&type=Repositories',
-]
+let langArr = ['', 'javascript', 'ruby', 'java', 'css']
 
-function Popular() {
+function Popular(props) {
   let dataArr = []
   const listArrObj = [
     {
@@ -50,9 +45,12 @@ function Popular() {
   //是否开启下拉加载
   const [hasMore, setHasmore] = useState(true)
   const [count, setCount] = useState(0)
-  const [ids, setIds] = useState(0)
   //点击切换头部
   function changeHead(id) {
+    props.history.push({
+      pathname: '/',
+      search: `language=${langArr[id]}`,
+    })
     let list = [...name]
     list.forEach(item => {
       item.isChecked = false
@@ -62,46 +60,48 @@ function Popular() {
         item.isChecked = true
       }
     })
-    setIds(id)
+    setCount(() => 0)
     setData(data => data.splice(0))
     setName(list)
-    setInitPage(1)
+    setInitPage(() => 1)
     loadMoreData()
   }
   //接口请求函数
   function loadMoreData(page = 1) {
+    let langUage = window.location.search.split('=')[1]
+    let reqPath = `https://api.github.com/search/repositories?q=stars:3E1${
+      langUage !== '' ? '+language:' + langUage : ' '
+    }&sort=stars&order=desc&type=Repositories`
     setIsLoad(true)
-    if (count && count.length >= 100) {
-      //请求数据总数超过100,则不响应上拉加载
+    if (count >= 200) {
+      //请求数据总数超过200,则不响应上拉加载
       setHasmore(false)
       return false
     }
     axios
-      .get(apiArr[ids], {
+      .get(reqPath, {
         params: {
           page: page,
         },
       })
       .then(res => {
-        if (res.data.items) {
+        if (res.status === 200) {
           dataArr = res.data.items
           let counts = dataArr.length + count
           setData([...dataArr, ...data])
           setCount(counts)
-          console.log(isLoad)
           setIsLoad(false)
         } else {
-          console.log('err')
-          return []
+          return
         }
       })
       .catch(err => {
-        alert(err)
         setIsLoad(false)
+        message.error(err.message, 3)
       })
   }
   useEffect(() => {
-    loadMoreData(1)
+    loadMoreData()
   }, [])
   return (
     <div className='box'>
@@ -134,7 +134,7 @@ function Popular() {
         hasMore={hasMore} // 是否继续监听滚动事件 true 监听 | false 不再监听
         useWindow={true} // 不监听 window 滚动条
         loader={
-          <div className='loader' key={0}>
+          <div className='loader' key={0} style={{ textAlign: 'center', marginBottom: '0' }}>
             正在加载 Loading
           </div>
         }

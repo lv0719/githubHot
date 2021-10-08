@@ -11,11 +11,11 @@ function Result() {
   //     window.location.href = window.location.origin + '/battle/result'
   //   }
   useEffect(() => {
-    let search = window.location.search
+    let search = window.location.hash.split('result')[1] || window.location.search
     //"?player1=22&player2=2"
     let arr = search.split('&')
-    let player1 = arr[0].substr(9)
-    let player2 = arr[1].substr(8)
+    let player1 = arr[0] !== '' ? arr[0].substr(9) : ''
+    let player2 = arr[1] !== '' ? arr[1].substr(8) : ''
 
     requestData(player1)
       .then(res => {
@@ -45,7 +45,7 @@ function Result() {
         </div>
         <div className='right'>
           <div className='center'>
-            <p>Loser</p>
+            <p>Winner</p>
             <img src={playerTwoData.avatar_url} />
             <p>Scores:{playerTwoData.public_repos}</p>
             <p>{playerTwoData.name}</p>

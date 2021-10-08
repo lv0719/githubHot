@@ -8,7 +8,11 @@ export default function (params) {
   return axios
     .get(baseUrl + params)
     .then(res => {
-      return Promise.resolve(res.data)
+      if (res.status === 200) {
+        return Promise.resolve(res.data)
+      } else {
+        return Promise.reject('请求错误')
+      }
     })
     .catch(err => {
       return Promise.reject(err)
