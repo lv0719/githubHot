@@ -25,7 +25,7 @@ const prodConfig = {
     new FriendlyErrorsWebpackPlugin(),
     // 提取 CSS 到单独的文件中
     new MiniCssExtractPlugin({
-      filename: '[name].css',
+      filename: 'assets/[hash].[name].css',
     }),
     // // CSS Tree Shaking,无用的css将不打包
     // new PurgeCSSPlugin({
@@ -35,6 +35,8 @@ const prodConfig = {
 
   optimization: {
     minimize: true,
+    //让公共包 splitChunks 的 hash 不因为新的依赖而改变，减少非必要的 hash 变动
+    moduleIds: 'deterministic',
     minimizer: [
       //js压缩
       new TerserPlugin({

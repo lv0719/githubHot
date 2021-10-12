@@ -68,10 +68,11 @@ function Popular(props) {
   }
   //接口请求函数
   function loadMoreData(page = 1) {
-    let langUage = window.location.search.split('=')[1]
+    let langUage = window.location.hash.split('=')[1]
     let reqPath = `https://api.github.com/search/repositories?q=stars:3E1${
-      langUage !== '' ? '+language:' + langUage : ' '
+      langUage !== '' ? '+language:' + langUage : ''
     }&sort=stars&order=desc&type=Repositories`
+    console.log('req', reqPath)
     setIsLoad(true)
     if (count >= 200) {
       //请求数据总数超过200,则不响应上拉加载

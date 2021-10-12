@@ -4,6 +4,7 @@ const htmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') //这个插件将 CSS 提取到单独的文件中。它为每个包含CSS 的 JS 文件创建一个 CSS 文件。它支持按需加载 CSS 和 SourceMaps。
 const TerserPlugin = require('terser-webpack-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const values = require('postcss-modules-values')
 
 module.exports = {
   mode: 'development',
@@ -13,9 +14,15 @@ module.exports = {
   },
   output: {
     // filename: 'bundle.js',
-    filename: '[name]-[contenthash:8].js',
+    // filename: '[name]-[contenthash:8].js',
+    filename:
+      process.env.NODE_ENV === 'production' ? '[name].[contenthash].bundle.js' : '[name].bundle.js',
+    // filename: '[name].[contenthash:8].bundle.js',
     path: path.resolve(__dirname, '../dist'),
   },
+  // cache: {
+  //   type: 'filesystem', // 使用文件缓存
+  // },
   resolve: {
     alias: {
       '@src': path.resolve(__dirname, '../src'),
@@ -35,7 +42,9 @@ module.exports = {
         test: /\.(sa|sc|le|c)ss$/,
         use: [
           {
-            loader: MiniCssExtractPlugin.loader,
+            //生产环境使用style-loader
+            loader:
+              process.env.NODE_ENV === 'production' ? MiniCssExtractPlugin.loader : 'style-loader',
           },
           'css-loader',
           'postcss-loader',
@@ -69,9 +78,6 @@ module.exports = {
     ],
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: 'assets/[name].css',
-    }),
     new htmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, '../public/index.html'),
