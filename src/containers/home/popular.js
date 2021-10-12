@@ -7,7 +7,7 @@ import 'font-awesome/css/font-awesome.css'
 import { message } from 'antd'
 
 let langArr = ['', 'javascript', 'ruby', 'java', 'css']
-
+const aa = 22
 function Popular(props) {
   let dataArr = []
   const listArrObj = [
@@ -72,11 +72,11 @@ function Popular(props) {
     let reqPath = `https://api.github.com/search/repositories?q=stars:3E1${
       langUage !== '' ? '+language:' + langUage : ''
     }&sort=stars&order=desc&type=Repositories`
-    console.log('req', reqPath)
     setIsLoad(true)
     if (count >= 200) {
       //请求数据总数超过200,则不响应上拉加载
       setHasmore(false)
+      setIsLoad(true)
       return false
     }
     axios
@@ -91,12 +91,16 @@ function Popular(props) {
           let counts = dataArr.length + count
           setData([...dataArr, ...data])
           setCount(counts)
+          console.log(1)
           setIsLoad(false)
         } else {
+          console.log(2)
+          setIsLoad(false)
           return
         }
       })
       .catch(err => {
+        console.log(3)
         setIsLoad(false)
         message.error(err.message, 3)
       })
