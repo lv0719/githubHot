@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './styles/popular.css'
 import './styles/loading.css'
 import axios from 'axios'
@@ -7,7 +7,6 @@ import 'font-awesome/css/font-awesome.css'
 import { message } from 'antd'
 
 let langArr = ['', 'javascript', 'ruby', 'java', 'css']
-const aa = 22
 function Popular(props) {
   let dataArr = []
   const listArrObj = [
@@ -37,7 +36,6 @@ function Popular(props) {
       isChecked: false,
     },
   ]
-  const { useState, useEffect } = React
   const [name, setName] = useState(listArrObj)
   const [data, setData] = useState(dataArr)
   const [isLoad, setIsLoad] = useState(false)

@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
 import requestData from './api/requestPlayer.js'
 import './styles/result.css'
-import { Button } from 'antd'
+import { Button, message } from 'antd'
 
-function Result() {
+function Result(props) {
   const [playerOneData, setPlayerOneData] = useState({})
   const [playerTwoData, setPlayerTwoData] = useState({})
   //   function jumpBack() {
   //     window.location.href = window.location.origin + '/battle/result'
   //   }
   useEffect(() => {
-    let search = window.location.hash.split('result')[1] || window.location.search
-    //"?player1=22&player2=2"
-    let arr = search.split('&')
-    let player1 = arr[0] !== '' ? arr[0].substr(9) : ''
-    let player2 = arr[1] !== '' ? arr[1].substr(8) : ''
-
+    let search = window.location.hash.split('?')[1]
+    let searchParams = new URLSearchParams(search)
+    //"player1=22&player2=2"
+    let player1 = searchParams.has('player1') ? searchParams.get('player1') : ''
+    let player2 = searchParams.has('player2') ? searchParams.get('player2') : ''
+    if (player1 == '' || player2 == '') {
+      console.log('缺少参数')
+      message.error('参数丢失，返回battle页')
+      props.history.push('/battle')
+      return
+    }
     requestData(player1)
       .then(res => {
         setPlayerOneData(res)
@@ -61,4 +66,4 @@ function Result() {
   )
 }
 
-export default Result
+export default withRouter(Result)
