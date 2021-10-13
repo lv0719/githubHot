@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './styles/popular.css'
 import './styles/loading.css'
-import axios from 'axios'
+import { requestPopular } from './api/requsetPopular.js'
 import InfiniteScroll from 'react-infinite-scroller'
 import 'font-awesome/css/font-awesome.css'
 import { message } from 'antd'
@@ -74,34 +74,28 @@ function Popular(props) {
     if (count >= 200) {
       //请求数据总数超过200,则不响应上拉加载
       setHasmore(false)
-      setIsLoad(true)
+      setIsLoad(false)
       return false
     }
-    axios
-      .get(reqPath, {
-        params: {
-          page: page,
-        },
-      })
-      .then(res => {
+
+    requestPopular.get(reqPath, { page: page }).then(
+      res => {
+        setIsLoad(false)
         if (res.status === 200) {
           dataArr = res.data.items
           let counts = dataArr.length + count
           setData([...dataArr, ...data])
           setCount(counts)
-          console.log(1)
           setIsLoad(false)
         } else {
-          console.log(2)
-          setIsLoad(false)
-          return
+          console.log('something error happened')
         }
-      })
-      .catch(err => {
-        console.log(3)
+      },
+      err => {
         setIsLoad(false)
-        message.error(err.message, 3)
-      })
+        message.error(err.response.data.message, 3)
+      }
+    )
   }
   useEffect(() => {
     loadMoreData()
