@@ -5,7 +5,6 @@ import 'antd/dist/antd.css'
 const Battle = lazy(() => import('./battle.js'))
 const Popular = lazy(() => import('./popular'))
 
-const aa = 222
 function App() {
   return (
     <div className='App'>
