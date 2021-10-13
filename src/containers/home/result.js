@@ -16,7 +16,7 @@ function Result(props) {
     //"player1=22&player2=2"
     let player1 = searchParams.has('player1') ? searchParams.get('player1') : ''
     let player2 = searchParams.has('player2') ? searchParams.get('player2') : ''
-    if (player1 == '' || player2 == '') {
+    if (player1 === '' || player2 === '') {
       console.log('缺少参数')
       message.error('参数丢失，返回battle页')
       props.history.push('/battle')
@@ -37,12 +37,21 @@ function Result(props) {
         console.log(err)
       })
   }, [])
+  function isWinner(one, two) {
+    if (one > two) {
+      return 'Winner'
+    } else if (one == two) {
+      return 'equal'
+    } else if (one < two) {
+      return 'Loser'
+    }
+  }
   return (
     <div className='result'>
       <div className='resultContent'>
         <div className='left'>
           <div className='center'>
-            <p>Loser</p>
+            <p>{isWinner(playerOneData.public_repos, playerTwoData.public_repos)}</p>
             <img src={playerOneData.avatar_url} />
             <p>Scores:{playerOneData.public_repos}</p>
             <p>{playerOneData.name}</p>
@@ -50,7 +59,7 @@ function Result(props) {
         </div>
         <div className='right'>
           <div className='center'>
-            <p>Winner</p>
+            <p>{isWinner(playerTwoData.public_repos, playerOneData.public_repos)}</p>
             <img src={playerTwoData.avatar_url} />
             <p>Scores:{playerTwoData.public_repos}</p>
             <p>{playerTwoData.name}</p>
