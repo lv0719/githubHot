@@ -10,7 +10,15 @@
     "dev": "webpack serve --config ./scripts/webpack.dev.js",
     "prod": "webpack --config ./scripts/webpack.prod.js",
     "deploy": "gh-pages -d dist",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "eslint": "eslint --ext .js,.jsx src",
+    "eslintfix": "eslint --fix --ext .js,.jsx src",
+    "lint-staged": "lint-staged"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run eslint"
+    }
   },
   "keywords": [],
   "author": "",
@@ -37,7 +45,7 @@
     "html-webpack-plugin": "^5.3.2",
     "husky": "^7.0.2",
     "less-loader": "7.3.0",
-    "lint-staged": "^11.1.2",
+    "lint-staged": "^11.2.3",
     "mini-css-extract-plugin": "^2.3.0",
     "node-sass": "^6.0.1",
     "postcss": "^8.3.8",
